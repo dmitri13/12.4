@@ -47,7 +47,7 @@ where district like 'K%a' and district not like '% %'
 
 ![phpmy](https://github.com/dmitri13/12.3/blob/main/img/phpmy.png)
 
-![actor](https://github.com/dmitri13/12/3/blob/main/img/actor.png)
+![actor](https://github.com/dmitri13/12.3/blob/main/img/actor.png)
 ---
 
 ### Задание 2

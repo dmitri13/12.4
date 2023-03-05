@@ -39,6 +39,15 @@ where district like 'K%a' and district not like '% %'
 
 да таблица пустая почему-то
 
+установил phpmyadmin начал смотреть через него в итоге, есть таблица только actor
+Прошу подсказать может я что не так делаю, в начале делал mysqldump -u root -p sakila < sakiladb.zip, все по нулям. 
+Потом делал также на разные sql файлы также по нулям, потом через phpmyadmin сначала загрузил sakila-schema он выдал одну таблицу и в нее удалось загрузить данные и все. 
+Где-то ошибаюсь, но не могу понять где((
+
+
+![phpmy](https://github.com/dmitri13/12.3/blob/main/img/phpmy.png)
+
+![actor](https://github.com/dmitri13/12/3/blob/main/img/actor.png)
 ---
 
 ### Задание 2

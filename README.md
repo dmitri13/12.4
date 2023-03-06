@@ -1,4 +1,4 @@
-# Домашнее задание к занятию "`12.3 SQL`" - `Овчинников Дмитрий`
+# Домашнее задание к занятию "`12.4 SQL.Часть 2`" - `Овчинников Дмитрий`
 
 
 ### Инструкция по выполнению домашнего задания
@@ -24,57 +24,65 @@
 
 ### Задание 1
 
-Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
+Одним запросом получите информацию о магазине, в котором обслуживается более 300 покупателей, и выведите в результат следующую информацию:
 
-select distinct district from address
+    фамилия и имя сотрудника из этого магазина;
+    город нахождения магазина;
+    количество пользователей, закреплённых в этом магазине.
 
-where district like 'K%a' and district not like '% %'
+select
 
-![sakila1](https://github.com/dmitri13/12.3/blob/main/img/sakila1.png)
+s.store_id, count(c.customer_id ) as "Количество пользователей", s2.first_name, s2.last_name, c2.city
+
+from
+
+store s
+
+join customer c on c.store_id = s.store_id
+
+join staff s2 on s2.store_id = s.store_id
+
+join address a on a.address_id =s.address_id
+
+join city c2 on c2.city_id =a.city_id
+
+group by s.store_id, s2.first_name, s2.last_name, c2.city
+
+having
+
+count(c.customer_id) > 300
+
+![sakila1](https://github.com/dmitri13/12.4/blob/main/img/sakila1.png)
 
 ---
 
 ### Задание 2
 
-Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года включительно и стоимость которых превышает 10.00.
+Получите количество фильмов, продолжительность которых больше средней продолжительности всех фильмов.
 
-select payment_id, payment_date, amount
+select count(`length`) film_id 
 
-from payment
+from film f 
 
-where payment_date between '2005-06-15' and '2005-06-19' and amount > 10.00
+where `length` > (select AVG(`length`) from film)
 
-![sakila2](https://github.com/dmitri13/12.3/blob/main/img/sakila2.png)
+![sakila2](https://github.com/dmitri13/12.4/blob/main/img/sakila2.png)
 ---
 
 ### Задание 3
 
-Получите последние пять аренд фильмов.
+Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 
-select rental_id , rental_date
+select month (payment_date), count(rental_id), sum(amount)
+ 
+from payment p
+ 
+group by month (payment_date)
+ 
+order by sum(amount) desc
 
-from rental
+limit 1
 
-order by rental_date desc
+![sakila3](https://github.com/dmitri13/12.4/blob/main/img/sakila3.png)
 
-limit 5
-
-![sakila3](https://github.com/dmitri13/12.3/blob/main/img/sakila3.png)
-
-### Задание 4
-
-Одним запросом получите активных покупателей, имена которых Kelly или Willie.
-
-Сформируйте вывод в результат таким образом:
-
-  -  все буквы в фамилии и имени из верхнего регистра переведите в нижний регистр,
-  -  замените буквы 'll' в именах на 'pp'.
-
-select lower(last_name) last_name , replace ( lower(first_name), 'll', 'pp') first_name , active
-
-from customer
-
-where first_name = 'KELLY' or first_name = 'WILLIE' and active >0
-
-![sakila4](https://github.com/dmitri13/12.3/blob/main/img/sakila4.png)
 ---

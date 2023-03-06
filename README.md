@@ -26,36 +26,47 @@
 
 Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
 
-Что-то у меня пусто все, не выдает названия, причем из терминала также
-
 select distinct district from address
 where district like 'K%a' and district not like '% %'
 
-![sakila](https://github.com/dmitri13/12.3/blob/main/img/sakila2.png)
+![sakila1](https://github.com/dmitri13/12.3/blob/main/img/sakila1.png)
 
-вот из терминала делал
-
-![term](https://github.com/dmitri13/12.3/blob/main/img/term.png)
-
-да таблица пустая почему-то
-
-установил phpmyadmin начал смотреть через него в итоге, есть таблица только actor
-Прошу подсказать может я что не так делаю, в начале делал mysqldump -u root -p sakila < sakiladb.zip, все по нулям. 
-Потом делал также на разные sql файлы также по нулям, потом через phpmyadmin сначала загрузил sakila-schema он выдал одну таблицу и в нее удалось загрузить данные и все. 
-Где-то ошибаюсь, но не могу понять где((
-
-
-![phpmy](https://github.com/dmitri13/12.3/blob/main/img/phpmy.png)
-
-![actor](https://github.com/dmitri13/12.3/blob/main/img/actor.png)
 ---
 
 ### Задание 2
 
-_--
+Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года включительно и стоимость которых превышает 10.00.
+
+select payment_id, payment_date, amount
+from payment
+where payment_date between '2005-06-15' and '2005-06-19' and amount > 10.00
+
+![sakila2](https://github.com/dmitri13/12.3/blob/main/img/sakila2.png)
+---
 
 ### Задание 3
 
+Получите последние пять аренд фильмов.
 
+select rental_id , rental_date
+from rental
+order by rental_date desc
+limit 5
 
+![sakila3](https://github.com/dmitri13/12.3/blob/main/img/sakila3.png)
 
+### Задание 4
+
+Одним запросом получите активных покупателей, имена которых Kelly или Willie.
+
+Сформируйте вывод в результат таким образом:
+
+  -  все буквы в фамилии и имени из верхнего регистра переведите в нижний регистр,
+  -  замените буквы 'll' в именах на 'pp'.
+
+select lower(last_name) last_name , replace ( lower(first_name), 'll', 'pp') first_name , active
+from customer
+where first_name = 'KELLY' or first_name = 'WILLIE' and active >0
+
+![sakila4](https://github.com/dmitri13/12.3/blob/main/img/sakila4.png)
+---

@@ -73,16 +73,22 @@ where `length` > (select AVG(`length`) from film)
 
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 
-select month (payment_date), count(rental_id), sum(amount)
- 
-from payment p
- 
-group by month (payment_date)
- 
-order by sum(amount) desc
+SELECT SUM(p.amount) AS 'highest payment',
 
-limit 1
+DATE_FORMAT(p.payment_date, '%Y-%M') AS 'date',
 
-![sakila3](https://github.com/dmitri13/12.4/blob/main/img/sakila3.png)
+COUNT(r.rental_id) AS 'number of leases'
+
+FROM payment p
+
+LEFT JOIN rental r ON r.rental_id = p.rental_id
+
+GROUP BY DATE_FORMAT(p.payment_date, '%Y-%M')
+
+ORDER BY 1 DESC
+
+LIMIT 1;
+
+![1234](https://github.com/dmitri13/12.4/blob/main/img/1234.png)
 
 ---

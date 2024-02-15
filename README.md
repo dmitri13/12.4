@@ -30,26 +30,32 @@
     город нахождения магазина;
     количество пользователей, закреплённых в этом магазине.
 
+
 select
-
-s.store_id, count(c.customer_id ) as "Количество пользователей", s2.first_name, s2.last_name, c2.city
-
+ s.store_id, count(c.customer_id) as "Количество пользователей", s2.first_name, s2.last_name, c2.city
 from
-
 store s
-
 join customer c on c.store_id = s.store_id
-
 join staff s2 on s2.store_id = s.store_id
+join address a on a.address_id = s.address_id
+join city c2 ON c2.city_id = a.city_id
+group by s.store_id,s2.staff_id,s2.first_name,s2.last_name, c2.city
+having 
+COUNT(c.customer_id) > 300;
 
+![sakila0](https://github.com/dmitri13/12.4/blob/main/img/sakila0.png)
+
+
+select
+s.store_id, count(c.customer_id ) as "Количество пользователей", s2.first_name, s2.last_name, c2.city
+from
+store s
+join customer c on c.store_id = s.store_id
+join staff s2 on s2.store_id = s.store_id
 join address a on a.address_id =s.address_id
-
 join city c2 on c2.city_id =a.city_id
-
 group by s.store_id, s2.first_name, s2.last_name, c2.city
-
 having
-
 count(c.customer_id) > 300
 
 ![sakila1](https://github.com/dmitri13/12.4/blob/main/img/sakila1.png)
@@ -61,9 +67,7 @@ count(c.customer_id) > 300
 Получите количество фильмов, продолжительность которых больше средней продолжительности всех фильмов.
 
 select count(`length`) film_id 
-
 from film f 
-
 where `length` > (select AVG(`length`) from film)
 
 ![sakila2](https://github.com/dmitri13/12.4/blob/main/img/sakila2.png)
@@ -74,19 +78,12 @@ where `length` > (select AVG(`length`) from film)
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 
 SELECT SUM(p.amount) AS 'highest payment',
-
 DATE_FORMAT(p.payment_date, '%Y-%M') AS 'date',
-
 COUNT(r.rental_id) AS 'number of leases'
-
 FROM payment p
-
 LEFT JOIN rental r ON r.rental_id = p.rental_id
-
 GROUP BY DATE_FORMAT(p.payment_date, '%Y-%M')
-
 ORDER BY 1 DESC
-
 LIMIT 1;
 
 ![1234](https://github.com/dmitri13/12.4/blob/main/img/1234.png)
